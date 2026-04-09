@@ -19,7 +19,8 @@ type Action =
   | { type: "MOVE_TASK"; payload: { id: string; status: Task["status"] } }
   | { type: "DELETE_TASK"; payload: string }
   | { type: "EXTERNAL_UPDATE"; payload: Task }
-  | { type: "SYNC_TASKS"; payload: Task[] };
+  | { type: "SYNC_TASKS"; payload: Task[] }
+  | { type: "ROLLBACK"; payload: Task };
 
 interface TaskContextType {
   state: State;
@@ -67,6 +68,14 @@ function reducer(state: State, action: Action): State {
         ...state,
         tasks: state.tasks.map((t) =>
           t.id === action.payload.id ? { ...t, ...action.payload } : t,
+        ),
+      };
+
+    case "ROLLBACK":
+      return {
+        ...state,
+        tasks: state.tasks.map((t) =>
+          t.id === action.payload.id ? action.payload : t,
         ),
       };
 

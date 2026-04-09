@@ -1,21 +1,31 @@
 import { useTasks } from "../context/TaskContext";
 import { updateTaskApi } from "../services/fakeApi";
+import type { Task } from "../types/task";
 
-export const useOptimisticUpdate = () => {
-  const { dispatch } = useTasks();
+interface UpdateTaskResult {
+  updateTask: (task: Task) => Promise<void>;
+}
 
-  const updateTask = async (task) => {
-    // 1. Optimistic update
+export const useOptimisticUpdate = (): UpdateTaskResult => {
+  const { state, dispatch } = useTasks();
+
+  const updateTask = async (task: Task): Promise<void> => {
+    const previousTask = state.tasks.find((t) => t.id === task.id);
+
+    if (!previousTask) return;
+
+    // Optimistic update
     dispatch({ type: "UPDATE_TASK", payload: task });
 
     try {
-      // 2. API call
       await updateTaskApi(task);
-    } catch (err) {
-      // 3. Rollback
-      dispatch({ type: "ROLLBACK" });
+    } catch (err: unknown) {
+      // ✅ rollback with REAL previous data
+      dispatch({ type: "ROLLBACK", payload: previousTask });
 
-      alert("Update failed. Changes reverted.");
+      if (err instanceof Error) {
+        alert(err.message);
+      }
     }
   };
 

@@ -60,7 +60,7 @@ export default function Board() {
   };
 
   // Simulated API with 20% failure rate
-  const simulateApiUpdate = (id: string, status: string) => {
+  const simulateApiUpdate = () => {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         const isFailure = Math.random() < 0.2;
