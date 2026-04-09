@@ -143,7 +143,7 @@ export default function Board() {
 
           <div
             className={clsx(
-              "flex items-center gap-4 transition-all duration-1000 delay-100",
+              "flex items-center gap-4 transition-all duration-1000 delay-3200",
               mounted
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-4",
@@ -190,10 +190,10 @@ export default function Board() {
             {columns.map((col, index) => {
               const delay =
                 index === 0
-                  ? "delay-[100ms]"
+                  ? "delay-[1000ms]"
                   : index === 1
-                    ? "delay-[500ms]"
-                    : "delay-[1100ms]";
+                    ? "delay-[1800ms]"
+                    : "delay-[2600ms]";
 
               return (
                 <div

@@ -2,6 +2,7 @@ import { useDraggable } from "@dnd-kit/core";
 import clsx from "clsx";
 import AvatarStack from "./AvatarStack";
 import React, { useState, useEffect } from "react";
+import { TaskSkeleton } from "./TaskSkeleton";
 
 export interface Task {
   id: string;
@@ -19,24 +20,6 @@ interface TaskCardProps {
   isOverlay?: boolean;
   isSyncing?: boolean;
 }
-
-// Skeleton Component for the "Loading" state
-export const TaskSkeleton = () => (
-  <div className="bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl border border-gray-100 border-l-2 border-l-gray-200 animate-pulse">
-    <div className="flex justify-between mb-4">
-      <div className="h-4 w-2/3 bg-slate-200 rounded-md" />
-      <div className="h-4 w-12 bg-slate-100 rounded-md" />
-    </div>
-    <div className="space-y-2 mb-4">
-      <div className="h-3 w-full bg-slate-100 rounded-md" />
-      <div className="h-3 w-5/6 bg-slate-100 rounded-md" />
-    </div>
-    <div className="flex justify-between items-center pt-2">
-      <div className="h-3 w-16 bg-slate-50 rounded-md" />
-      <div className="h-6 w-6 rounded-full bg-slate-100" />
-    </div>
-  </div>
-);
 
 const priorityColors = {
   low: "bg-green-400",
@@ -98,7 +81,7 @@ export const TaskCard = React.memo(
       return (
         <div
           ref={setNodeRef}
-          className="m-1 mt-4 mb-5 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 h-[140px]"
+          className="m-1 mt-4 mb-5 rounded-2xl bg-gray-50/50 h-[140px]"
         />
       );
     }
@@ -110,7 +93,7 @@ export const TaskCard = React.memo(
         {...attributes}
         style={style}
         className={clsx(
-          "relative bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl shadow-sm border border-gray-100 border-l-2",
+          "relative bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl shadow-sm",
           "cursor-grab active:cursor-grabbing touch-none transition-all duration-500",
           statusColors[task.status],
           isSyncing &&
@@ -118,13 +101,12 @@ export const TaskCard = React.memo(
           !isOverlay && !isSyncing && "hover:shadow-md hover:-translate-y-1",
           isOverlay &&
             "shadow-2xl ring-2 ring-blue-500/20 scale-105 rotate-2 opacity-90 cursor-grabbing",
-          // Smooth fade-in animation
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
         )}
       >
         {isSyncing && (
           <div className="absolute top-2 right-2">
-            <div className="w-3 h-3 border-2 border-slate-200 border-t-slate-800 rounded-full animate-spin" />
+            <div className="w-3 h-3 rounded-full animate-spin" />
           </div>
         )}
 

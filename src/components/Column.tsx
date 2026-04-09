@@ -2,7 +2,8 @@ import { useDroppable } from "@dnd-kit/core";
 import { useState, useRef, useEffect, useMemo } from "react";
 import clsx from "clsx";
 import { RollingBadge } from "./RollingBadge";
-import { TaskCard, TaskSkeleton } from "./TaskCard";
+import { TaskCard } from "./TaskCard";
+import { TaskSkeleton } from "./TaskSkeleton";
 
 interface ColumnProps {
   id: string;
@@ -115,7 +116,7 @@ export default function Column({ id, tasks, syncingTaskId }: ColumnProps) {
           <div ref={observerTarget} className="mt-2 space-y-1 opacity-60">
             <TaskSkeleton />
             <div className="flex flex-col items-center py-2">
-              <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-slate-300 border-t-slate-600 rounded-full" />
             </div>
           </div>
         ) : (

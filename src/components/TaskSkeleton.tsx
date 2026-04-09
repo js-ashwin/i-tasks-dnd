@@ -1,5 +1,5 @@
 export const TaskSkeleton = () => (
-  <div className="bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl border border-gray-100 border-l-2 border-l-gray-200 animate-pulse">
+  <div className="bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl">
     <div className="flex justify-between mb-4">
       <div className="h-4 w-2/3 bg-slate-200 rounded-md" />
       <div className="h-4 w-12 bg-slate-100 rounded-md" />
