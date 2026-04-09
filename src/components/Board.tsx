@@ -92,7 +92,7 @@ export default function Board() {
 
     try {
       // 2. Simulated Sync
-      await simulateApiUpdate(taskId, newStatus);
+      await simulateApiUpdate();
       toast.success("Synced successfully", {
         description: `"${task.title}" is now in ${newStatus}`,
       });
