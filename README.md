@@ -7,6 +7,7 @@ Features
 5. autofill - done
 6. undo create task - done
 7. form re-validate after autofill - ift there were errors
-8. prepare -explanation, video explanation of ui, unlisted youtube video
+8. prepare -explanation, video explanation of ui, unlisted youtube video ⬆️
 9. search has debounce
-10. add tests for utils and components
+10. all search work in and combination
+11. add tests for utils and components ⬆️
