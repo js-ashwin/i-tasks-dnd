@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "module": "es2020",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "verbatimModuleSyntax": false,
+    "isolatedModules": true,
+    "ignoreDeprecations": "6.0",
+    "noEmit": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts"]
+}
