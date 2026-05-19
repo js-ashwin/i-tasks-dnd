@@ -3,23 +3,7 @@ import clsx from "clsx";
 import AvatarStack from "./AvatarStack";
 import React, { useState, useEffect } from "react";
 import { TaskSkeleton } from "./TaskSkeleton";
-
-export interface Task {
-  id: string;
-  title: string;
-  description?: string;
-  status: "todo" | "in-progress" | "done";
-  priority?: "low" | "medium" | "high";
-  tags?: string[];
-  createdAt: string;
-  assignee?: any;
-}
-
-interface TaskCardProps {
-  task: Task;
-  isOverlay?: boolean;
-  isSyncing?: boolean;
-}
+import type { TaskCardProps } from "../types";
 
 const priorityColors = {
   low: "bg-green-400",
@@ -31,6 +15,12 @@ const priorityColorsBG = {
   low: "bg-green-100",
   medium: "bg-blue-100",
   high: "bg-red-100",
+};
+
+const priorityColorsBGDark = {
+  low: "dark:bg-emerald-900",
+  medium: "dark:bg-sky-900",
+  high: "dark:bg-red-900",
 };
 
 const statusColors = {
@@ -90,7 +80,7 @@ export const TaskCard = React.memo(
         {...attributes}
         style={style}
         className={clsx(
-          "relative bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl shadow-sm",
+          "relative bg-white dark:bg-slate-900 px-5 p-2 pt-3 m-1 mb-5 rounded-2xl shadow-sm text-slate-900 dark:text-slate-100",
           "cursor-grab active:cursor-grabbing touch-none",
           statusColors[task.status],
           isSyncing &&
@@ -108,15 +98,17 @@ export const TaskCard = React.memo(
         )}
 
         <div className="flex justify-between items-start mb-2">
-          <h3 className="font-semibold text-gray-800 text-sm leading-snug">
+          <h3 className="font-semibold text-gray-800 dark:text-slate-100 text-sm leading-snug">
             {task.title}
           </h3>
 
           {!isSyncing && task.priority && (
             <div
               className={clsx(
-                "flex items-center gap-1 text-[10px] tracking-wider rounded-lg px-2 py-0.5 shadow-xs",
+                "flex items-center gap-1 text-[10px] tracking-wider rounded-lg px-2 py-0.5 shadow-xs font-medium",
                 priorityColorsBG[task.priority],
+                priorityColorsBGDark[task.priority],
+                "text-slate-800 dark:text-slate-100",
               )}
             >
               <span
@@ -130,7 +122,7 @@ export const TaskCard = React.memo(
           )}
         </div>
 
-        <p className="text-sm text-gray-500 line-clamp-2 min-h-[40px]">
+        <p className="text-sm text-gray-500 dark:text-slate-400 line-clamp-2 min-h-[40px]">
           {task.description || "No description provided."}
         </p>
 
@@ -139,7 +131,7 @@ export const TaskCard = React.memo(
             {task.tags.map((tag: string) => (
               <span
                 key={tag}
-                className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-md font-medium"
+                className="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-300 px-2 py-0.5 rounded-md font-medium"
               >
                 #{tag.replace("#", "")}
               </span>
@@ -147,7 +139,7 @@ export const TaskCard = React.memo(
           </div>
         )}
 
-        <div className="flex justify-between items-center pt-1 text-[11px] text-gray-400">
+        <div className="flex justify-between items-center pt-1 text-[11px] text-gray-400 dark:text-slate-500">
           <span className="flex items-center gap-1">
             <svg
               className="w-3 h-3"
@@ -168,6 +160,7 @@ export const TaskCard = React.memo(
               year: "2-digit",
             })}
           </span>
+          {/* edit button */}
           <AvatarStack users={task.assignee} />
         </div>
       </div>

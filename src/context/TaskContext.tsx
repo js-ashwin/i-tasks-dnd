@@ -5,30 +5,19 @@ import {
   type ReactNode,
   type Dispatch,
 } from "react";
-import type { Task } from "../types/task";
-
-interface State {
-  tasks: Task[];
-}
-
-type Action =
-  | { type: "SET_TASKS"; payload: Task[] }
-  | { type: "ADD_TASK"; payload: Task }
-  | { type: "UPDATE_TASK"; payload: Task }
-  | { type: "MOVE_TASK"; payload: { id: string; status: Task["status"] } }
-  | { type: "DELETE_TASK"; payload: string }
-  | { type: "EXTERNAL_UPDATE"; payload: Task }
-  | { type: "SYNC_TASKS"; payload: Task[] }
-  | { type: "ROLLBACK"; payload: Task };
-
-interface TaskContextType {
-  state: State;
-  dispatch: Dispatch<Action>;
-}
+import type {
+  Task,
+  TaskContextState,
+  TaskContextAction,
+  TaskContextType,
+} from "../types";
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
-function reducer(state: State, action: Action): State {
+function reducer(
+  state: TaskContextState,
+  action: TaskContextAction,
+): TaskContextState {
   switch (action.type) {
     case "SET_TASKS":
       return { ...state, tasks: action.payload };

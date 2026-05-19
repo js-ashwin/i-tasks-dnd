@@ -4,12 +4,7 @@ import clsx from "clsx";
 import { RollingBadge } from "./RollingBadge";
 import { TaskCard } from "./TaskCard";
 import { TaskSkeleton } from "./TaskSkeleton";
-
-interface ColumnProps {
-  id: string;
-  tasks: any[];
-  syncingTaskId: string | null;
-}
+import type { ColumnProps } from "../types";
 
 const statusConfig: Record<string, { label: string; dot: string; bg: string }> =
   {
@@ -27,7 +22,7 @@ export default function Column({ id, tasks, syncingTaskId }: ColumnProps) {
 
   // --- Pagination Logic ---
   const INITIAL_BATCH = 5;
-  const LOAD_MORE_COUNT = 2; // Increased slightly for better scroll feel
+  const LOAD_MORE_COUNT = 2;
   const [displayLimit, setDisplayLimit] = useState(INITIAL_BATCH);
   const observerTarget = useRef<HTMLDivElement | null>(null);
 
@@ -75,12 +70,12 @@ export default function Column({ id, tasks, syncingTaskId }: ColumnProps) {
   };
 
   return (
-    <div className="bg-slate-100/80 rounded-[2rem] p-4 h-full flex flex-col border border-slate-200 shadow-xs">
+    <div className="min-h-0 bg-slate-100/80 dark:bg-slate-900/10 rounded-[2rem] p-4 flex flex-col border border-slate-200 dark:border-slate-700 shadow-xs">
       <div className="sticky top-0 z-20 pb-4 pt-1">
         <div className="flex justify-between items-center px-2">
           <div className="flex items-center gap-2.5">
             <div className={clsx("w-2 h-2 rounded-full", config.dot)} />
-            <h2 className="font-extrabold text-slate-800 text-sm uppercase tracking-wider">
+            <h2 className="font-extrabold text-slate-800 dark:text-slate-100 text-sm uppercase tracking-wider">
               {config.label}
             </h2>
             <span
@@ -99,9 +94,9 @@ export default function Column({ id, tasks, syncingTaskId }: ColumnProps) {
 
       <div
         ref={setNodeRef}
-        className="flex-1 overflow-y-auto min-h-[500px] scrollbar-hide px-1 pb-10"
+        className="scrollbar-hide px-1 pb-10 flex-1 max-h-[65vh] overflow-y-auto"
       >
-        <div className="space-y-1">
+        <div>
           {visibleTasks.map((task) => (
             <TaskCard
               key={task.id}

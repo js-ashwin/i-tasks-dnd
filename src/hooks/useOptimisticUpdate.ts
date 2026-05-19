@@ -1,10 +1,6 @@
 import { useTasks } from "../context/TaskContext";
 import { updateTaskApi } from "../services/fakeApi";
-import type { Task } from "../types/task";
-
-interface UpdateTaskResult {
-  updateTask: (task: Task) => Promise<void>;
-}
+import type { Task, UpdateTaskResult } from "../types";
 
 export const useOptimisticUpdate = (): UpdateTaskResult => {
   const { state, dispatch } = useTasks();

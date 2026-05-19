@@ -1,4 +1,4 @@
-import type { Task } from "../types/task";
+import type { Task } from "../types";
 
 export const updateTaskApi = (task: Task): Promise<Task> => {
   return new Promise((resolve, reject) => {

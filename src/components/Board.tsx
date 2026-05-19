@@ -15,15 +15,9 @@ import { toast } from "sonner";
 import clsx from "clsx";
 import { useRealTimeSimulation } from "../hooks/useRealtimeSimulation";
 import { useTheme } from "../hooks/useTheme";
-import { TaskCard, type Task } from "./TaskCard";
-
-const columns = ["todo", "in-progress", "done"] as const;
-type ColumnStatus = (typeof columns)[number];
-
-interface SyncingTask {
-  id: string;
-  title: string;
-}
+import { TaskCard } from "./TaskCard";
+import { columns } from "../types";
+import type { Task, ColumnStatus, SyncingTask } from "../types";
 
 export default function Board() {
   const [open, setOpen] = useState(false);
@@ -113,7 +107,7 @@ export default function Board() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-20">
+    <main className="h-screen bg-slate-50/50 dark:bg-slate-950 pb-20">
       {/* Syncing Indicator Pill */}
       {syncingTask && (
         <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] bg-slate-900 text-white px-6 py-3 rounded-2xl flex items-center gap-4 shadow-2xl border border-white/10 transition-all animate-bounce">
@@ -134,7 +128,7 @@ export default function Board() {
         <div className="flex justify-between items-center px-4 md:px-10 py-8">
           <h1
             className={clsx(
-              "text-3xl font-black tracking-tighter text-slate-900 transition-all duration-1000",
+              "text-3xl font-black tracking-tighter text-slate-600 dark:text-slate-100 transition-all duration-1000",
               mounted
                 ? "opacity-100 translate-y-0"
                 : "opacity-0 -translate-y-4",
@@ -199,7 +193,7 @@ export default function Board() {
             {columns.map((col, index) => {
               const delay =
                 index === 0
-                  ? "delay-[1000ms]"
+                  ? "delay-[2000ms]"
                   : index === 1
                     ? "delay-[1800ms]"
                     : "delay-[2600ms]";
@@ -236,6 +230,6 @@ export default function Board() {
       </div>
 
       {open && <TaskModal onClose={() => setOpen(false)} />}
-    </div>
+    </main>
   );
 }

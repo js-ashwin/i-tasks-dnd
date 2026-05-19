@@ -1,5 +1,4 @@
-import type { Task } from "../types/task";
-import type { Filters } from "../types/filter";
+import type { Task, Filters } from "../types";
 
 export const filterTasks = (tasks: Task[], filters: Filters): Task[] => {
   const { assignee, priority, search } = filters;

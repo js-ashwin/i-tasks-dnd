@@ -1,8 +1,5 @@
 import React from "react";
-
-interface AnimatedBackgroundProps {
-  children?: React.ReactNode;
-}
+import type { AnimatedBackgroundProps } from "../types";
 
 const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
   children,
@@ -68,10 +65,10 @@ const AnimatedBackground: React.FC<AnimatedBackgroundProps> = ({
       </div>
 
       {/* Layer 2: The Grid */}
-      <div className="fixed inset-0 z-10 pointer-events-none bg-[linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_60%,transparent_100%)]" />
+      <div className="fixed inset-0 z-10 pointer-events-none grid-background" />
 
       {/* Layer 3: Content */}
-      <div className="relative z-20 w-full min-h-screen text-slate-900">
+      <div className="relative z-20 w-full min-h-screen text-slate-900 dark:text-slate-100">
         {children}
       </div>
     </div>

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
+import type { Theme, UseThemeReturn } from "../types";
 
-export const useTheme = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+export const useTheme = (): UseThemeReturn => {
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = localStorage.getItem("theme") as "light" | "dark" | null;
+    const stored = localStorage.getItem("theme") as Theme | null;
 
     const systemDark = window.matchMedia(
       "(prefers-color-scheme: dark)",
@@ -20,6 +21,13 @@ export const useTheme = () => {
       document.documentElement.classList.remove("dark");
     }
   }, []);
+
+  useEffect(() => {
+    console.log(
+      "dark class:",
+      document.documentElement.classList.contains("dark"),
+    );
+  }, [theme]);
 
   const toggleTheme = () => {
     setTheme((prev) => {

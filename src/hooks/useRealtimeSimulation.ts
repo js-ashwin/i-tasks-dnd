@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTasks } from "../context/TaskContext";
 import { toast } from "sonner";
-import type { Task } from "../types/task";
+import type { Task } from "../types";
 
 export function useRealTimeSimulation(isEditingId: string | null) {
   const { state, dispatch } = useTasks();
