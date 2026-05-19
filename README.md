@@ -2,6 +2,13 @@
 
 A modern, responsive Kanban-style task management application built with React, TypeScript, and Tailwind CSS. Features drag-and-drop functionality, real-time updates, filtering, and theme switching.
 
+Webapp - https://i-tasks-dnd.vercel.app/
+
+## 📸 Preview
+
+![Light Mode](./screenshots/dark.JPG)
+![Dark Mode](./screenshots/light.JPG)
+
 ## Features
 
 - **Drag and Drop**: Move tasks between columns using @dnd-kit for smooth interactions.
