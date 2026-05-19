@@ -20,7 +20,6 @@ export const useOptimisticUpdate = (): UpdateTaskResult => {
     try {
       await updateTaskApi(task);
     } catch (err: unknown) {
-      // ✅ rollback with REAL previous data
       dispatch({ type: "ROLLBACK", payload: previousTask });
 
       if (err instanceof Error) {

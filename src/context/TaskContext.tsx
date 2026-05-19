@@ -11,7 +11,6 @@ interface State {
   tasks: Task[];
 }
 
-// 1. Added DELETE_TASK to the Action union type
 type Action =
   | { type: "SET_TASKS"; payload: Task[] }
   | { type: "ADD_TASK"; payload: Task }
@@ -27,7 +26,6 @@ interface TaskContextType {
   dispatch: Dispatch<Action>;
 }
 
-// 2. Initialized context with a proper type instead of 'any'
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 function reducer(state: State, action: Action): State {
@@ -56,7 +54,6 @@ function reducer(state: State, action: Action): State {
         ),
       };
 
-    // 3. Implemented the DELETE_TASK logic
     case "DELETE_TASK":
       return {
         ...state,
