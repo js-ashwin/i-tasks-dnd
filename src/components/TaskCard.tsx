@@ -43,15 +43,12 @@ export const TaskCard = React.memo(
   ({ task, isOverlay, isSyncing }: TaskCardProps) => {
     const [isLoaded, setIsLoaded] = useState(false);
 
-    // Staggered loading effect
     useEffect(() => {
       if (isOverlay) {
         setIsLoaded(true);
         return;
       }
-      // Random delay between 150ms and 450ms for that organic feel
-      const delay = Math.floor(Math.random() * 300) + 150;
-      const timer = setTimeout(() => setIsLoaded(true), delay);
+      const timer = setTimeout(() => setIsLoaded(true), 450);
       return () => clearTimeout(timer);
     }, [isOverlay]);
 
