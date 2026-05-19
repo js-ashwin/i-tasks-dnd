@@ -94,7 +94,7 @@ export const TaskCard = React.memo(
         style={style}
         className={clsx(
           "relative bg-white px-5 p-2 pt-3 m-1 mb-5 rounded-2xl shadow-sm",
-          "cursor-grab active:cursor-grabbing touch-none transition-all duration-500",
+          "cursor-grab active:cursor-grabbing touch-none",
           statusColors[task.status],
           isSyncing &&
             "opacity-60 cursor-wait pointer-events-none grayscale-[0.2]",
@@ -106,7 +106,7 @@ export const TaskCard = React.memo(
       >
         {isSyncing && (
           <div className="absolute top-2 right-2">
-            <div className="w-3 h-3 rounded-full animate-spin" />
+            <div className="w-3 rounded-full animate-spin" />
           </div>
         )}
 
