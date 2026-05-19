@@ -53,18 +53,6 @@ src/
 
 ---
 
-# State Management Strategy
-
-## Global State (Zustand)
-
-Used for:
-
-- tasks
-- optimistic mutations
-- filters
-- realtime events
-- UI sync state
-
 ## Server Simulation Layer
 
 Mock API layer simulates:

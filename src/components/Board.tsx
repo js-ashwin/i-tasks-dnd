@@ -14,6 +14,7 @@ import { filterTasks } from "../utils/filterTasks";
 import { toast } from "sonner";
 import clsx from "clsx";
 import { useRealTimeSimulation } from "../hooks/useRealtimeSimulation";
+import { useTheme } from "../hooks/useTheme";
 import { TaskCard, type Task } from "./TaskCard";
 
 const columns = ["todo", "in-progress", "done"] as const;
@@ -38,6 +39,7 @@ export default function Board() {
   });
 
   const { state, dispatch } = useTasks();
+  const { theme, toggleTheme } = useTheme();
 
   // We pass activeTaskId so the simulator knows NOT to overwrite what we are dragging
   useRealTimeSimulation(activeTaskId);
@@ -149,6 +151,13 @@ export default function Board() {
                 : "opacity-0 -translate-y-4",
             )}
           >
+            <button
+              onClick={toggleTheme}
+              className="px-5 py-3 rounded-2xl border border-slate-300 bg-white text-slate-900 text-sm font-semibold shadow-sm hover:bg-slate-100 active:scale-95 transition-all dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:hover:bg-slate-800"
+            >
+              {theme === "dark" ? "Light Mode" : "Dark Mode"}
+            </button>
+
             <button
               onClick={() => setOpen(true)}
               className="bg-slate-900 text-white px-6 py-3 rounded-2xl font-bold text-sm shadow-xl shadow-slate-900/20 hover:bg-black active:scale-95 transition-all flex items-center gap-2 cursor-pointer"

@@ -2,93 +2,54 @@
 
 ---
 
-# Why Zustand Instead of Redux?
-
-Chosen because:
-
-- minimal boilerplate
-- selector-based subscriptions
-- simpler mental model
-- excellent performance characteristics
-
-Redux Toolkit was considered but rejected due to unnecessary complexity for this scope.
-
----
-
-# Why react-window?
-
-Chosen for:
-
-- lightweight virtualization
-- excellent rendering performance
-- easy integration with Kanban layout
-
-Alternative considered:
-
-- react-virtualized
-
-Rejected because:
-
-- heavier API
-- unnecessary features
-
----
-
 # Why dnd-kit?
 
 Chosen because:
 
-- modern architecture
-- accessibility support
-- composable APIs
-- strong React ecosystem compatibility
+- it supports drag-and-drop with composable React primitives
+- built-in `DragOverlay` enables smooth drag visuals
+- `closestCorners` collision detection is simple and robust
+- it avoids deprecated alternatives and stays aligned with modern React patterns
 
 Rejected:
 
-- react-beautiful-dnd (deprecated)
+- `react-beautiful-dnd` because it is no longer maintained and has a heavier API surface
+
+---
+
+# Why React Context + useReducer?
+
+Chosen because:
+
+- application state is small and naturally represented as a single task array
+- reducers keep task updates predictable and easy to reason about
+- the built-in React APIs eliminate the need for external state libraries
+- `useTasks()` adds a safety guard so state can only be used inside `TaskProvider`
+
+Rejected:
+
+- more complex state managers like Redux or Zustand for this scope
 
 ---
 
 # Why Optimistic Updates?
 
-Improves:
-
-- responsiveness
-- perceived latency
-- user experience
-
-Tradeoff:
-
-- rollback complexity
-
-Accepted because collaborative applications require responsive interactions.
-
----
-
-# Why Normalized State?
+The board is designed to feel instant even when network sync is delayed.
 
 Benefits:
 
-- efficient updates
-- avoids duplicated task references
-- simpler reconciliation
-- easier optimistic rollback
+- immediate UI feedback for task creation and board moves
+- improved perceived responsiveness on drag-and-drop interactions
+- simplified error recovery via rollback when simulated sync fails
 
----
+Tradeoffs:
 
-# Reconciliation Strategy
+- rollback handling is required for failed syncs
+- user-visible state can diverge briefly from the remote simulation
 
-Implemented using:
+Accepted because:
 
-- mutation IDs
-- timestamps
-- pending mutation tracking
-
-Rules:
-
-1. Local optimistic updates take precedence
-2. External stale updates ignored
-3. Active edits protected
+- the UX depends on low-latency interactions for task movement and creation
 
 ---
 
@@ -96,52 +57,111 @@ Rules:
 
 Purpose:
 
-- validate rollback logic
-- test resilience
-- expose race conditions during development
+- exercise optimistic update rollback paths
+- surface how the board behaves under unreliable sync
+- make the app more realistic without a real backend
+
+Implementation details:
+
+- new task creation and drag updates both simulate 2s delays
+- 10–20% chance of failure is used to test rollback behavior
+- `sonner` toast notifications provide visible success, error, and undo affordances
+
+---
+
+# Why Client-Wins Reconciliation?
+
+The app simulates remote changes with `useRealTimeSimulation` while preserving local edits.
+
+Rules:
+
+1. Local optimistic updates take precedence during active drag/edit operations
+2. Remote updates are applied only when the local task is not currently active
+3. A warning toast is shown when a conflict is detected
+
+Rationale:
+
+- this keeps the drag experience consistent
+- it avoids disrupting the active user interaction
+- it is a simple conflict strategy for a prototype board
+
+---
+
+# Why a Flat Task Array?
+
+The current implementation uses a flat `Task[]` instead of normalized entities.
+
+Benefits:
+
+- simpler reducer logic and fewer moving parts
+- easier to implement with current feature set
+- sufficient for current app size and mock-driven data
+
+Tradeoffs:
+
+- less efficient if task relationships or nested entities grow larger
+- more difficult to extend to very large datasets without normalization
+
+Accepted because:
+
+- the app is intentionally scoped as a lightweight task board prototype
+
+---
+
+# Why Form Validation with Zod + react-hook-form?
+
+Chosen because:
+
+- Zod provides a declarative task schema and custom validation messages
+- `react-hook-form` keeps modal form state minimal and performant
+- the combination delivers fast validation without extra re-renders
+
+Key validations:
+
+- title, description, and assignee are required with minimum lengths
+- priority is constrained to `low`, `medium`, or `high`
+- tags are validated for reasonable length
+
+---
+
+# Why Incremental Column Rendering?
+
+Columns render batches of tasks with an intersection-observer sentinel.
+
+Benefits:
+
+- smoother scrolling for longer lists
+- visible loading skeletons improve perceived performance
+- avoids rendering every task in a column at once
+
+Tradeoffs:
+
+- adds slightly more UI logic in `Column`
+- not a full virtualization layer yet
+
+Accepted because:
+
+- it improves scalability without the complexity of windowing libraries
 
 ---
 
 # Why Memoization?
 
-Necessary because:
+Used to reduce unnecessary re-renders and improve board performance.
 
-- task count can exceed 1000
-- filters/search are expensive
-- drag interactions trigger frequent renders
+Implemented using:
 
-Used:
-
-- React.memo
-- useMemo
-- useCallback
-- selector memoization
-
----
-
-# Tradeoffs
-
-## Accepted Tradeoffs
-
-### Complexity
-
-Realtime reconciliation increases complexity but better reflects production systems.
-
-### Memory Usage
-
-Normalized state and snapshots increase memory usage slightly for better update performance.
-
-### Virtualization Constraints
-
-Virtualization complicates drag-and-drop integration but is required for scalability.
+- `React.memo` for `TaskCard`
+- `useMemo` for filtered task lists
+- stable handlers and lightweight render paths for drag state
 
 ---
 
 # Future Improvements
 
-- WebSocket integration
-- CRDT-based conflict resolution
-- Offline persistence
-- Presence indicators
-- Undo/redo system
-- Activity timeline
+- replace simulated sync with a real backend or GraphQL API
+- normalize task state and add entity lookup caching
+- add undo/redo and explicit offline recovery
+- support real-time presence / WebSocket collaboration
+- improve server-side conflict resolution beyond client-wins
+- add accessibility audits and keyboard drag support

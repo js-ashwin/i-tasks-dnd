@@ -13,7 +13,6 @@ Requirements:
 
 Technical Requirements:
 
-- Zustand
 - TypeScript
 - immutable state updates
 - reusable mutation utilities
