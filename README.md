@@ -6,8 +6,8 @@ Webapp - https://i-tasks-dnd.vercel.app/
 
 ## 📸 Preview
 
-![Light Mode](./screenshots/dark.JPG)
-![Dark Mode](./screenshots/light.JPG)
+![Light Mode](./screenshots/light.JPG)
+![Dark Mode](./screenshots/dark.JPG)
 
 ## Features
 
