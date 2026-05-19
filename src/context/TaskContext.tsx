@@ -91,7 +91,7 @@ export const TaskProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// 4. Enhanced useTasks hook with a safety check
+// Enhanced useTasks hook with a safety check
 export const useTasks = () => {
   const context = useContext(TaskContext);
   if (!context) {
